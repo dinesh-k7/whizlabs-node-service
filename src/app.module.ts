@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { DepartmentModule } from './department/department.module';
 import { DivisionService } from './division/division.service';
+import { ProjectDataModule } from './project-data/project-data.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -16,6 +17,7 @@ import configuration from './config/configuration';
       isGlobal: true,
     }),
     DepartmentModule,
+    ProjectDataModule,
   ],
   providers: [DivisionService],
 })
