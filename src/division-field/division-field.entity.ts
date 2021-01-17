@@ -1,18 +1,12 @@
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
-import { IsString, IsNotEmpty, IsBoolean, IsEmail } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
 
 @Entity()
-export class User extends BaseEntity {
+export class DivisionField extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  @IsString()
-  @IsNotEmpty()
-  @IsEmail()
-  email: string;
-
-  @Column()
+  @Column({ length: 200 })
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -24,16 +18,18 @@ export class User extends BaseEntity {
   })
   created_at: Date;
 
-  @Column()
-  @IsBoolean()
-  active: boolean;
-
-  @Column()
+  @Column({ length: 20 })
   @IsString()
   @IsNotEmpty()
-  password: string;
+  type: string;
 
   @Column()
+  @IsNumber()
+  @IsNotEmpty()
+  division_id: number;
+
+  @Column()
+  @IsNumber()
   @IsNotEmpty()
   department_id: number;
 }
