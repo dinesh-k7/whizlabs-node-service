@@ -12,5 +12,5 @@ export class DivisionDto {
   readonly created_at?: Date;
 
   @ApiProperty()
-  readonly department_id: Number;
+  readonly department_id: number;
 }

@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, getConnection } from 'typeorm';
 // import {
 //   paginate,
 //   Pagination,
@@ -10,6 +10,7 @@ import { forkJoin } from 'rxjs';
 
 import { User } from './user.entity';
 import { Department } from '../department/department.entity';
+import { IUserLogin } from './dto/user-dto';
 
 @Injectable()
 export class UsersService {
@@ -71,5 +72,30 @@ export class UsersService {
 
   async deleteUser(userId: number): Promise<void> {
     await this.usersRepository.delete(userId);
+  }
+
+  /**
+   * Function to get user based on the emailid and password
+   * @param loginPayload: IUserLogin
+   */
+  async userLogin(loginPayload: IUserLogin): Promise<User[]> {
+    const { username, password } = loginPayload;
+
+    return await this.usersRepository.find({
+      where: [{ email: username, password: password }],
+    });
+  }
+
+  /**
+   * Function to get the list of division based on the user_id
+   * @param userId: number
+   */
+  async getDivisions(userId: number): Promise<any> {
+    return await getConnection().query(
+      `SELECT dv.name as division_name, dv.id as division_id FROM division as dv 
+       JOIN department as d on d.id = dv.department_id 
+       JOIN user as u on u.department_id = d.id  
+       where u.id = ${userId}`,
+    );
   }
 }

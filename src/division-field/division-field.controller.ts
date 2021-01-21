@@ -8,7 +8,6 @@ import {
   Get,
   Put,
   Delete,
-  Res,
 } from '@nestjs/common';
 
 import { ApiOperation, ApiResponse, ApiTags, ApiBody } from '@nestjs/swagger';

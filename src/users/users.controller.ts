@@ -19,7 +19,7 @@ import { UserDto, IUserLogin } from './dto/user-dto';
 import { User } from './user.entity';
 import { ConfigService } from '@nestjs/config';
 
-@Controller('users')
+@Controller('user')
 @ApiTags('Users')
 export class UsersController {
   constructor(
@@ -143,5 +143,57 @@ export class UsersController {
         success: false,
       });
     }
+  }
+
+  /**
+   * Function to check user name & password for users
+   * @param loginPayload: any
+   */
+  @Post('login')
+  @ApiOperation({ summary: 'User login' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'No Content' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+  @ApiResponse({ status: HttpStatus.BAD_GATEWAY, description: 'Gateway error' })
+  public async userLogin(
+    @Body() loginPayload: any,
+    @Res() response: Response,
+  ): Promise<any> {
+    this.userService.userLogin(loginPayload).then(
+      (loginSuccess) => {
+        if (loginSuccess && loginSuccess.length && loginSuccess.length === 1) {
+          const [user] = loginSuccess;
+          response.send({
+            user_id: user.id,
+            success: true,
+            department_id: user.department_id,
+            token: Math.floor(Math.random() * 999999999999 + 1111111),
+          });
+        } else {
+          response.status(HttpStatus.UNAUTHORIZED).send({
+            success: false,
+          });
+        }
+      },
+      () => {
+        response.status(HttpStatus.UNAUTHORIZED).send({
+          success: false,
+        });
+      },
+    );
+  }
+
+  /**
+   * Function to get the list of division based on the department and userId
+   * @param userId: number
+   */
+  @Get('division/:userId')
+  @ApiOperation({ summary: 'Get division list by user Id' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Ok', type: UserDto })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+  @ApiResponse({ status: HttpStatus.BAD_GATEWAY, description: 'Gateway error' })
+  public async getDivsion(
+    @Param('userId', ParseIntPipe) userId: number,
+  ): Promise<any> {
+    return this.userService.getDivisions(userId);
   }
 }
