@@ -4,14 +4,16 @@ import { Repository, getConnection } from 'typeorm';
 
 import { DivisionField } from './division-field.entity';
 import { Division } from '../department/division.entity';
+import { ProjectData } from '../project-data/project-data.entity';
+import { forkJoin } from 'rxjs';
 
 @Injectable()
 export class DivisionFieldService {
   constructor(
     @InjectRepository(DivisionField)
     private divisionFieldRepository: Repository<DivisionField>,
-    @InjectRepository(Division)
-    private divisionRepository: Repository<Division>,
+    @InjectRepository(ProjectData)
+    private ProjectDataRepository: Repository<ProjectData>,
   ) {}
 
   /**
@@ -71,5 +73,19 @@ export class DivisionFieldService {
 
   async deleteDivisionField(divisionFieldId: number): Promise<void> {
     await this.divisionFieldRepository.delete(divisionFieldId);
+  }
+
+  /**
+   * Function to get division field by division id
+   * @param divisionId : number
+   */
+
+  async getDivisionFieldById(divisionId: number): Promise<any> {
+    return await forkJoin([
+      this.ProjectDataRepository.find({ where: [{ division_id: divisionId }] }),
+      this.divisionFieldRepository.find({
+        where: [{ division_id: divisionId }],
+      }),
+    ]).toPromise();
   }
 }

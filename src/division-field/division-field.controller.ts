@@ -25,7 +25,7 @@ export class DivisionFieldController {
    * Function to get all division field by divisionId
    * @param departmentId: number
    */
-  @Get('division/:departmentId')
+  @Get('department/:departmentId')
   @ApiOperation({ summary: 'Get Division field by departmentId Id' })
   @ApiResponse({ status: HttpStatus.OK, description: 'Ok' })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
@@ -99,5 +99,20 @@ export class DivisionFieldController {
   @ApiBody({ type: DivisionFieldDto })
   public async createDivision(@Body() payload: DivisionField): Promise<any> {
     return this.divisionFieldService.createDepartment(payload);
+  }
+
+  /**
+   * Function to get division field by divisionId
+   * @param divisionId: number
+   */
+  @Get('division/:divisionId')
+  @ApiOperation({ summary: 'Get Division field' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Ok' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+  @ApiResponse({ status: HttpStatus.BAD_GATEWAY, description: 'Gateway error' })
+  public async getDivisionFieldById(
+    @Param('divisionId') divisionId: number,
+  ): Promise<any> {
+    return this.divisionFieldService.getDivisionFieldById(divisionId);
   }
 }

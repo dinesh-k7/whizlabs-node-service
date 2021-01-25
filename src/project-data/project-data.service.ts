@@ -49,9 +49,8 @@ export class ProjectDataService {
   async getProjectByUser(userId: number): Promise<ProjectData[]> {
     return await getConnection().query(
       `SELECT u.name as uname, d.name as department_name, dv.name as division_name, 
-      dv.id as division_id, pd.id as project_id FROM user as u JOIN department as d on d.id = u.department_id 
-      JOIN division as dv on dv.department_id = u.department_id JOIN project_data as pd on 
-      pd.division_id = dv.id where u.id = ${userId}`,
+      dv.id as division_id FROM user as u JOIN department as d on d.id = u.department_id 
+      JOIN division as dv on dv.department_id = u.department_id where u.id = ${userId}`,
     );
   }
 
