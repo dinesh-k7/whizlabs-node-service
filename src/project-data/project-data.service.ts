@@ -26,7 +26,9 @@ export class ProjectDataService {
   // SELECT u.name as uname, d.name as dname, dv.name as divsionname, df.id, df.name, df.type FROM `user` as u JOIN department as d on d.id = u.`department_id` JOIN division as dv on dv.department_id = u.`department_id` JOIN division_field as df on df.department_id = u.`department_id` where u.`department_id` = 12
   async getAll(): Promise<ProjectData[]> {
     return await getConnection().query(
-      `SELECT dfield.id, dvs.department_id,dvs.name as division_name, dfield.division_id,  dfield.name, dfield.type FROM division_field as dfield left join division as dvs on dfield.department_id = dvs.department_id where dvs.department_id = dfield.department_id AND dvs.id = dfield.division_id`,
+      `SELECT u.name as uname, d.name as department_name, d.id as department_id, dv.name as division_name, 
+      dv.id as division_id FROM user as u JOIN department as d on d.id = u.department_id 
+      JOIN division as dv on dv.department_id = u.department_id`,
     );
   }
 
