@@ -115,4 +115,17 @@ export class DivisionFieldController {
   ): Promise<any> {
     return this.divisionFieldService.getDivisionFieldById(divisionId);
   }
+
+  /**
+   * Function to get division field by divisionId
+   * @param divisionId: number
+   */
+  @Get('all/:divisionId')
+  @ApiOperation({ summary: 'Get Division field by division id' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Ok' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+  @ApiResponse({ status: HttpStatus.BAD_GATEWAY, description: 'Gateway error' })
+  public async get(@Param('divisionId') divisionId: number): Promise<any> {
+    return this.divisionFieldService.getDivisionFieldById(divisionId);
+  }
 }

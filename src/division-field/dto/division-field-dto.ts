@@ -20,6 +20,9 @@ export class DivisionFieldDto {
   readonly type: string;
 
   @ApiProperty()
+  readonly isDisplay: boolean;
+
+  @ApiProperty()
   @IsNotEmpty()
   @IsNumber()
   readonly department_id: number;

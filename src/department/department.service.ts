@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, getConnection } from 'typeorm';
 
 import { Department } from './department.entity';
 import { Division } from './division.entity';
@@ -139,5 +139,15 @@ export class DepartmentService {
     return await this.divisionRepository.find({
       where: [{ id: _id }],
     });
+  }
+
+  /**
+   * Function to get division and field data based on departmentId
+   * @param departmentId: number
+   */
+  async getDetails(departmentId: number): Promise<any> {
+    return await getConnection().query(
+      `SELECT dfield.id as fieldId, dfield.isDisplay, dvs.department_id,dvs.name as division_name, dfield.division_id,  dfield.name, dfield.type FROM division_field as dfield left join division as dvs on dfield.department_id = dvs.department_id where dvs.department_id =${departmentId} AND dvs.id = dfield.division_id`,
+    );
   }
 }

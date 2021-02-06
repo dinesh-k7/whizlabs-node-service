@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
-import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsBoolean } from 'class-validator';
 
 @Entity()
 export class DivisionField extends BaseEntity {
@@ -32,4 +32,9 @@ export class DivisionField extends BaseEntity {
   @IsNumber()
   @IsNotEmpty()
   department_id: number;
+
+  @Column()
+  @IsBoolean()
+  @IsNotEmpty()
+  isDisplay: boolean;
 }

@@ -28,7 +28,7 @@ export class DivisionFieldService {
    * Function to get the list of all division field by division id
    * @param departmentId: number
    */
-  // SELECT u.name as uname, d.name as dname, dv.name as divsionname, df.id, df.name, df.type FROM `user` as u JOIN department as d on d.id = u.`department_id` JOIN division as dv on dv.department_id = u.`department_id` JOIN division_field as df on df.department_id = u.`department_id` where u.`department_id` = 12
+  // SELECT u.name as uname, d.namSELECT u.name as uname, d.name as dname, dv.name as divsionname, df.id, df.name, df.type FROM `user` as u JOIN department as d on d.id = u.`department_id` JOIN division as dv on dv.department_id = u.`department_id` JOIN division_field as df on df.department_id = u.`department_id` where u.`department_id` = 12
   async getAll(departmentId: number): Promise<DivisionField[]> {
     return await getConnection().query(
       `SELECT dfield.id, dvs.department_id,dvs.name as division_name, dfield.division_id,  dfield.name, dfield.type FROM division_field as dfield left join division as dvs on dfield.department_id = dvs.department_id where dvs.department_id =${departmentId} AND dvs.id = dfield.division_id`,
@@ -87,5 +87,16 @@ export class DivisionFieldService {
         where: [{ division_id: divisionId }],
       }),
     ]).toPromise();
+  }
+
+  /**
+   * Function to get division field by division id
+   * @param divisionId : number
+   */
+
+  async get(divisionId: number): Promise<DivisionField[]> {
+    return await this.divisionFieldRepository.find({
+      where: [{ division_id: divisionId }],
+    });
   }
 }

@@ -196,4 +196,20 @@ export class DepartmentController {
   ): Promise<any> {
     return this.departmentService.getDivisionList(departmentId);
   }
+
+  /**
+   * Function to get Division by id
+   * @param divisionId: number
+   */
+  @Get('department/division/division-field/:departmentId')
+  @ApiTags('Department')
+  @ApiOperation({ summary: 'Get Division and field data' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Ok' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+  @ApiResponse({ status: HttpStatus.BAD_GATEWAY, description: 'Gateway error' })
+  public async getDetails(
+    @Param('departmentId') departmentId: number,
+  ): Promise<any> {
+    return this.departmentService.getDetails(departmentId);
+  }
 }
