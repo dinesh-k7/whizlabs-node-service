@@ -10,7 +10,7 @@ import configuration from './config/configuration';
 
 @Module({
   imports: [
-    //   TypeOrmModule.forRoot(),
+    TypeOrmModule.forRoot({ connectTimeoutMS: 9999999999 }),
     UsersModule,
     ConfigModule.forRoot({
       load: [configuration],
