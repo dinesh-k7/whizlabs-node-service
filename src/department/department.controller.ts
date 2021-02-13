@@ -9,6 +9,7 @@ import {
   Put,
   Delete,
   Query,
+  Res,
 } from '@nestjs/common';
 
 import { ApiOperation, ApiResponse, ApiTags, ApiBody } from '@nestjs/swagger';
@@ -211,5 +212,42 @@ export class DepartmentController {
     @Param('departmentId') departmentId: number,
   ): Promise<any> {
     return this.departmentService.getDetails(departmentId);
+  }
+
+  /**
+   * Function to get all department details
+   */
+  @Get('department/division/field/all')
+  @ApiTags('Department')
+  @ApiOperation({ summary: 'Get Division and field data for all department' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Ok' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
+  @ApiResponse({ status: HttpStatus.BAD_GATEWAY, description: 'Gateway error' })
+  public async get(@Res() response: any): Promise<any> {
+    return this.departmentService.getAll().then((data) => {
+      if (data && data.length) {
+        const [department, division] = data;
+        const list = department.map((dp) => {
+          const filter_division = division.filter(
+            (dv) => dv.department_id === dp.id,
+          );
+          filter_division &&
+            filter_division.length &&
+            filter_division.map((division) => (division.type = 'child'));
+
+          return {
+            name: dp.name,
+            id: dp.id,
+            created_at: dp.created_at,
+            type: 'parent',
+            divisions: filter_division,
+          };
+        });
+
+        response.send(list);
+      } else {
+        response.send([]);
+      }
+    });
   }
 }

@@ -4,6 +4,7 @@ import { Repository, getConnection } from 'typeorm';
 
 import { Department } from './department.entity';
 import { Division } from './division.entity';
+import { forkJoin } from 'rxjs';
 
 @Injectable()
 export class DepartmentService {
@@ -29,6 +30,16 @@ export class DepartmentService {
 
   async getDepartments(): Promise<Department[]> {
     return await this.departmentRepository.find();
+  }
+
+  /**
+   * Function to get all the department and division details
+   */
+  async getAll(): Promise<any> {
+    return await forkJoin([
+      this.departmentRepository.find(),
+      this.divisionRepository.find(),
+    ]).toPromise();
   }
 
   /**
