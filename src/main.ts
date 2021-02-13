@@ -27,9 +27,7 @@ async function bootstrap() {
     }),
   );
 
-  if (config().ENABLE_CORS) {
-    app.enableCors();
-  }
+  app.enableCors();
 
   await app.listen(port);
 }
