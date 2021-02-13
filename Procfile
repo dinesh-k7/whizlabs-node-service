@@ -1,1 +1,1 @@
-web: npm run start:prod -p $PORT
+worker: npm run start:prod
