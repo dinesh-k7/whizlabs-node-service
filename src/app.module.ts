@@ -10,7 +10,7 @@ import configuration from './config/configuration';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(),
+    //   TypeOrmModule.forRoot(),
     UsersModule,
     ConfigModule.forRoot({
       load: [configuration],
