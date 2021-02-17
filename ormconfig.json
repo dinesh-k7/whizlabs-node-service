@@ -1,10 +1,10 @@
 {
   "type": "mysql",
-  "host": "remotemysql.com",
+  "host": "139.59.20.213",
   "port": 3306,
-  "username": "dugulCNlEG",
-  "password": "9W8xxgtCoA",
-  "database": "dugulCNlEG",
+  "username": "assistdb_user",
+  "password": "mU2p6m3WvXBGCVBE",
+  "database": "assistdb",
   "entities": ["dist/**/**.entity{.ts,.js}"],
   "synchronize": true
 }
